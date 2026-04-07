@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIM Web Map Editor</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="panel left-panel">
+        <h1>SIM Web Editor</h1>
+        <p class="muted">跨平台浏览器版对象编辑器</p>
+
+        <label>资源</label>
+        <select id="assetSelect"></select>
+
+        <label>默认类型</label>
+        <select id="defaultType">
+          <option value="static">static</option>
+          <option value="dynamic">dynamic</option>
+          <option value="checkpoint">checkpoint</option>
+        </select>
+
+        <div class="row">
+          <button id="addCenterBtn">中心放置</button>
+          <button id="saveBtn">保存 JSON</button>
+        </div>
+
+        <h2>场景对象</h2>
+        <select id="objectList" size="14"></select>
+        <div class="row">
+          <button id="deleteBtn">删除</button>
+          <button id="duplicateBtn">复制</button>
+        </div>
+      </aside>
+
+      <main class="workspace-wrap">
+        <section class="pane">
+          <div class="pane-title">2D 编辑视图</div>
+          <canvas id="mapCanvas" width="1000" height="760"></canvas>
+        </section>
+        <section class="pane">
+          <div class="pane-title">3D 预览视图</div>
+          <div id="threeViewport"></div>
+        </section>
+        <div id="statusBar">Loading...</div>
+      </main>
+
+      <aside class="panel right-panel">
+        <h2>对象属性</h2>
+        <div class="form-grid">
+          <label>name</label><input id="name" />
+          <label>ID</label><input id="id" type="number" />
+          <label>type</label>
+          <select id="type">
+            <option value="static">static</option>
+            <option value="dynamic">dynamic</option>
+            <option value="checkpoint">checkpoint</option>
+          </select>
+
+          <label>x</label><input id="x" type="number" step="0.001" />
+          <label>y</label><input id="y" type="number" step="0.001" />
+          <label>z</label><input id="z" type="number" step="0.001" />
+          <label>rotY</label><input id="rotY" type="number" step="0.001" />
+          <label>scaleX</label><input id="scaleX" type="number" step="0.001" />
+          <label>scaleY</label><input id="scaleY" type="number" step="0.001" />
+          <label>scaleZ</label><input id="scaleZ" type="number" step="0.001" />
+          <label>speed</label><input id="speed" type="number" step="0.001" />
+          <label>respawn</label><input id="respawn" type="number" step="0.001" />
+          <label>moveType</label>
+          <select id="moveType">
+            <option value="None">None</option>
+            <option value="PingPong">PingPong</option>
+          </select>
+          <label>isActive</label><input id="isActive" type="checkbox" />
+        </div>
+
+        <button id="applyBtn" class="primary">应用修改</button>
+      </aside>
+    </div>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "/static/vendor/three/build/three.module.js",
+          "three/addons/": "/static/vendor/three/examples/jsm/"
+        }
+      }
+    </script>
+    <script type="module">
+      import("/static/app.js").catch((error) => {
+        const status = document.getElementById("statusBar");
+        if (status) {
+          status.textContent = "前端模块加载失败，请检查浏览器控制台。";
+        }
+        console.error(error);
+      });
+    </script>
+  </body>
+</html>
